@@ -1,6 +1,5 @@
 package com.dilip.posSystem.modal;
 
-import com.dilip.posSystem.domain.StoreStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +19,7 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String sku;
 
     private String description;
@@ -31,7 +30,7 @@ public class Product {
     private String brand;
     private String image;
 
-    //private Category category;
+    // private Category category;
     @ManyToOne
     private Store store;
 
@@ -39,20 +38,13 @@ public class Product {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    protected void onCreated(){
+    protected void onCreated() {
         createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    protected void onUpdated(){
+    protected void onUpdated() {
         updatedAt = LocalDateTime.now();
     }
-
-
-
-
-
-
-
 
 }

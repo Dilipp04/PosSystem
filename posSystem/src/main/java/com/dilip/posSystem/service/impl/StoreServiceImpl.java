@@ -24,22 +24,21 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreDto createStore(StoreDto storeDto, User user) {
-        Store store = StoreMapper.toEntity(storeDto,user);
+        Store store = StoreMapper.toEntity(storeDto, user);
         return StoreMapper.toDTO((storeRepository.save(store)));
     }
 
     @Override
     public StoreDto getStoreById(Long id) throws Exception {
         Store store = storeRepository.findById(id).orElseThrow(
-                ()->  new Exception("Store Not found")
-        );
+                () -> new Exception("Store Not found"));
         return StoreMapper.toDTO(store);
     }
 
     @Override
     public List<StoreDto> getAllStores() {
-        List<Store> dtos= storeRepository.findAll();
-       return dtos.stream().map(StoreMapper::toDTO).collect(Collectors.toList());
+        List<Store> dtos = storeRepository.findAll();
+        return dtos.stream().map(StoreMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -51,17 +50,17 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDto updateStore(Long id, StoreDto storeDto) throws Exception {
 
-        User currentUser = userService.getCurrentUser() ;
-        Store existing =  storeRepository.findByAdminId(currentUser.getId());
-        if(existing==null){
+        User currentUser = userService.getCurrentUser();
+        Store existing = storeRepository.findByAdminId(currentUser.getId());
+        if (existing == null) {
             throw new Exception("Store not found");
         }
         existing.setBrand(storeDto.getBrand());
         existing.setDescription(storeDto.getDescription());
-        if(storeDto.getStoreType()!=null){
+        if (storeDto.getStoreType() != null) {
             existing.setStoreType(storeDto.getStoreType());
         }
-        if(storeDto.getContact()!=null){
+        if (storeDto.getContact() != null) {
             StoreContact contact = StoreContact.builder()
                     .address(storeDto.getContact().getAddress())
                     .phone(storeDto.getContact().getPhone())
@@ -70,9 +69,7 @@ public class StoreServiceImpl implements StoreService {
             existing.setContact(contact);
         }
 
-
         Store updatedStore = storeRepository.save(existing);
-
 
         return StoreMapper.toDTO(updatedStore);
     }
@@ -87,8 +84,8 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreDto getStoreByEmployee() throws UserException {
-        User currentUser =  userService.getCurrentUser();
-        if(currentUser == null){
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null) {
             throw new UserException("You dont have permission to access the store.");
         }
         return StoreMapper.toDTO(currentUser.getStore());
@@ -97,11 +94,10 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDto moderateStore(Long id, StoreStatus status) throws Exception {
         Store store = storeRepository.findById(id).orElseThrow(
-                ()-> new Exception("Store not found...")
-        );
+                () -> new Exception("Store not found..."));
         store.setStatus(status);
 
         Store updatedStore = storeRepository.save(store);
-        return StoreMapper.toDTO(store);
+        return StoreMapper.toDTO(updatedStore);
     }
 }
