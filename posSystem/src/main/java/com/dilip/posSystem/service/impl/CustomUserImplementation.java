@@ -2,7 +2,6 @@ package com.dilip.posSystem.service.impl;
 
 import com.dilip.posSystem.modal.User;
 import com.dilip.posSystem.repository.UserRepository;
-import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,20 +20,17 @@ public class CustomUserImplementation implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername( String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User not Found");
         }
 
         GrantedAuthority authority = new SimpleGrantedAuthority(
-                user.getRole().toString()
-        );
+                user.getRole().toString());
         Collection<GrantedAuthority> authorities = Collections.singletonList(authority);
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),user.getPassword(),authorities
-        );
-
+                user.getEmail(), user.getPassword(), authorities);
 
     }
 }
