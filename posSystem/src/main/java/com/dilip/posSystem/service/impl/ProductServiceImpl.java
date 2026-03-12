@@ -1,10 +1,12 @@
 package com.dilip.posSystem.service.impl;
 
 import com.dilip.posSystem.mapper.ProductMapper;
+import com.dilip.posSystem.modal.Category;
 import com.dilip.posSystem.modal.Product;
 import com.dilip.posSystem.modal.Store;
 import com.dilip.posSystem.modal.User;
 import com.dilip.posSystem.payload.dto.ProductDto;
+import com.dilip.posSystem.repository.CategoryRepository;
 import com.dilip.posSystem.repository.ProductRepository;
 import com.dilip.posSystem.repository.StoreRepository;
 import com.dilip.posSystem.service.ProductService;
@@ -22,6 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public ProductDto createProduct(ProductDto productDto, User user) throws Exception {
@@ -30,8 +33,10 @@ public class ProductServiceImpl implements ProductService {
         ).orElseThrow(
                 ()-> new Exception("Store Not found")
         );
-
-        Product product = ProductMapper.toEntity(productDto,store);
+        Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
+                ()->new Exception("Category not found")
+        );
+        Product product = ProductMapper.toEntity(productDto,store,category);
         Product savedProduct = productRepository.save(product);
         return ProductMapper.toDTO( savedProduct);
     }
@@ -49,6 +54,13 @@ public class ProductServiceImpl implements ProductService {
         product.setSellingPrice(productDto.getSellingPrice());
         product.setBrand(productDto.getBrand());
         product.setUpdatedAt(LocalDateTime.now());
+        if(productDto.getCategoryId()!=null) {
+            Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
+                    () -> new Exception("Category Not found")
+            );
+
+            product.setCategory(category);
+        }
 
         return ProductMapper.toDTO( productRepository.save(product));
     }
