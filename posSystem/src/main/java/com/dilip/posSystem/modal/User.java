@@ -1,5 +1,6 @@
 package com.dilip.posSystem.modal;
 
+import com.dilip.posSystem.domain.StoreStatus;
 import com.dilip.posSystem.domain.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -28,6 +29,9 @@ public class User {
     @ManyToOne
     private Store store;
 
+    @ManyToOne
+    private Branch branch;
+
     @Column(nullable = false)
     private String password;
 
@@ -39,5 +43,15 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime lastLogin;
+
+    @PrePersist
+    protected void onCreated() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdated() {
+        updatedAt = LocalDateTime.now();
+    }
 
 }
