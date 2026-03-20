@@ -1,7 +1,6 @@
 package com.dilip.posSystem.service;
 
 import com.dilip.posSystem.domain.UserRole;
-import com.dilip.posSystem.modal.User;
 import com.dilip.posSystem.payload.dto.UserDto;
 
 import java.util.List;

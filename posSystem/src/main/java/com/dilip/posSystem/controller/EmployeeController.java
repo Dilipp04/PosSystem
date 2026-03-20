@@ -1,7 +1,6 @@
 package com.dilip.posSystem.controller;
 
 import com.dilip.posSystem.domain.UserRole;
-import com.dilip.posSystem.modal.User;
 import com.dilip.posSystem.payload.dto.UserDto;
 import com.dilip.posSystem.payload.response.ApiResponse;
 import com.dilip.posSystem.service.EmployeeService;
@@ -21,7 +20,6 @@ public class EmployeeController {
     public ResponseEntity<UserDto> createStoreEmployee(
             @PathVariable Long storeId,
             @RequestBody UserDto userDto) throws Exception {
-        System.out.println("thisis hittedd");
         UserDto employee = employeeService.createStoreEmployee(userDto, storeId);
         return ResponseEntity.ok(employee);
     }

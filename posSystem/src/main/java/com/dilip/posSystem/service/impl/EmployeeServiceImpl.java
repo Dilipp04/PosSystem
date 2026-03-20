@@ -79,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         existingEmployee.setEmail(employeeDetails.getEmail());
         existingEmployee.setFullName(employeeDetails.getFullName());
-        existingEmployee.setPassword(employeeDetails.getPassword());
+        existingEmployee.setPassword(passwordEncoder.encode(employeeDetails.getPassword()));
         existingEmployee.setRole(employeeDetails.getRole());
         existingEmployee.setBranch(branch);
 
