@@ -1,4 +1,4 @@
-package com.zosh.model;
+package com.dilip.posSystem.modal;
 
 import com.dilip.posSystem.modal.*;
 import jakarta.persistence.*;
@@ -32,24 +32,16 @@ public class ShiftReport {
     @ManyToOne
     private Branch branch;
 
+    @Transient
     private List<PaymentSummary> paymentSummaries;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "shift_report_top_products",
-            joinColumns = @JoinColumn(name = "shift_report_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Product> topSellingProducts;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "shift_report_recent_orders",
-            joinColumns = @JoinColumn(name = "shift_report_id"),
-            inverseJoinColumns = @JoinColumn(name = "order_id")
-    )
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Order> recentOrders;
 
-    @OneToMany(mappedBy = "shiftReport", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "shiftReport", cascade = CascadeType.ALL)
     private List<Refund> refunds;
+
 }
