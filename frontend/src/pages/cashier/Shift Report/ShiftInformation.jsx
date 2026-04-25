@@ -5,9 +5,9 @@ const shiftData = {
   cashier: {
     fullName: "Dilip prajapati"
   },
-  shiftStart:"Aug 8 2026, 02:11 AM",
-  shiftEnd:"ongoing",
-  duration:""
+  shiftStart: "Aug 8 2026, 02:11 AM",
+  shiftEnd: "ongoing",
+  duration: "8 hours"
 }
 
 const ShiftInformation = () => {
