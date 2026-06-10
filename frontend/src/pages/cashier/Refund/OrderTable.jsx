@@ -42,7 +42,7 @@ const OrderTable = ({ handleSelectOrder }) => {
                         <TableHead className="w-[150x]">Amount</TableHead>
                         <TableHead className="w-[150x]">Payment Mode</TableHead>
                         <TableHead className="w-[150x]">Status</TableHead>
-                        <TableHead className="w-[150x]">Actions</TableHead>
+                        <TableHead className="w-[150x] text-right">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -55,7 +55,7 @@ const OrderTable = ({ handleSelectOrder }) => {
                                 <TableCell>{order.totalAmount}</TableCell>
                                 <TableCell>{order.paymentType}</TableCell>
                                 <TableCell>{order.status}</TableCell>
-                                <TableCell>
+                                <TableCell className={"text-right"}>
                                     <Button onClick={
                                         () => handleSelectOrder(order)
                                     } >

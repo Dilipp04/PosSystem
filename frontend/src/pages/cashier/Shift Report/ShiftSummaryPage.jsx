@@ -10,7 +10,6 @@ import ShiftReportHeader from './ShiftReportHeader'
 const ShiftSummaryPage = () => {
   return (
     <div className="h-full flex flex-col">
-      <ShiftReportHeader />
       <div className="flex-1 overflow-auto p-4">
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-6'>
           <ShiftInformation />
@@ -24,6 +23,8 @@ const ShiftSummaryPage = () => {
           <RecentOrdersTable />
           <RefundsTable />
         </div>
+        <ShiftReportHeader />
+
       </div>
     </div>
   )
