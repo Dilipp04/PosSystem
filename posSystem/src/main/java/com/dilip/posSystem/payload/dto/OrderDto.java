@@ -18,9 +18,9 @@ public class OrderDto {
     private Long id;
     private Double totalAmount;
     private LocalDateTime createdAt;
-    private Long branchId;
+    private Long storeId;
     private Long CustomerId;
-    private BranchDto branch;
+    private StoreDto store;
     private UserDto cashier;
     private Customer customer;
     private PaymentType paymentType;

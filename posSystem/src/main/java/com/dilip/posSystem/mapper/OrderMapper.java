@@ -12,7 +12,7 @@ public class OrderMapper {
                 .id(order.getId())
                 .totalAmount(order.getTotalAmount())
                 .createdAt(order.getCreatedAt())
-                .branchId(order.getBranch().getId())
+                .storeId(order.getStore().getId())
                 .CustomerId(order.getCustomer().getId())
                 .customer(order.getCustomer())
                 .cashier(UserMapper.toDTO(order.getCashier()))

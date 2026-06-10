@@ -28,14 +28,14 @@ public class OrderServiceImpl implements OrderService {
         @Override
         public OrderDto createOrder(OrderDto orderDto) throws Exception {
                 User cashier = userService.getCurrentUser();
-                Branch branch = cashier.getBranch();
-                if (branch == null) {
-                        throw new Exception("Branch not found");
+                Store store = cashier.getStore();
+                if (store == null) {
+                        throw new Exception("Store not found");
                 }
                 Order order = Order.builder()
                                 .totalAmount(orderDto.getTotalAmount())
                                 .createdAt(LocalDateTime.now())
-                                .branch(branch)
+                                .store(store)
                                 .cashier(cashier)
                                 .customer(orderDto.getCustomer())
                                 .paymentType(orderDto.getPaymentType())
@@ -70,9 +70,9 @@ public class OrderServiceImpl implements OrderService {
         }
 
         @Override
-        public List<OrderDto> getOrdersByBranch(Long branchId, Long customerId, Long cashierId, PaymentType paymentType,
+        public List<OrderDto> getOrdersByStore(Long storeId, Long customerId, Long cashierId, PaymentType paymentType,
                         OrderStatus status) {
-                return orderRepository.findByBranchId(branchId)
+                return orderRepository.findByStoreId(storeId)
                                 .stream()
                                 .filter(
                                                 order -> customerId == null || (order.getCustomer() != null
@@ -99,12 +99,12 @@ public class OrderServiceImpl implements OrderService {
         }
 
         @Override
-        public List<OrderDto> getTodayOrdersByBranch(Long branchId) {
+        public List<OrderDto> getTodayOrdersByStore(Long storeId) {
                 LocalDate today = LocalDate.now();
                 LocalDateTime start = today.atStartOfDay();
                 LocalDateTime end = today.plusDays(1).atStartOfDay();
 
-                return orderRepository.findByBranchIdAndCreatedAtBetween(branchId, start, end)
+                return orderRepository.findByStoreIdAndCreatedAtBetween(storeId, start, end)
                                 .stream().map(
                                                 OrderMapper::toDTO)
                                 .collect(Collectors.toList());
@@ -118,8 +118,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         @Override
-        public List<OrderDto> getTop5RecentOrdersByBranchId(Long branchId) {
-                return orderRepository.findTop5ByBranchIdOrderByCreatedAtDesc(branchId)
+        public List<OrderDto> getTop5RecentOrdersByStoreId(Long storeId) {
+                return orderRepository.findTop5ByStoreIdOrderByCreatedAtDesc(storeId)
                                 .stream()
                                 .map(OrderMapper::toDTO)
                                 .collect(Collectors.toList());

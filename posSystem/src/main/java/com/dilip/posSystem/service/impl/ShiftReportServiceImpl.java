@@ -45,7 +45,7 @@ public class ShiftReportServiceImpl implements ShiftReportService {
         ShiftReport shiftReport = ShiftReport.builder()
                 .cashier(currentUser)
                 .shiftStart(shiftStart)
-                .branch(currentUser.getBranch())
+                .store(currentUser.getStore())
                 .build();
         ShiftReport savedReport = shiftReportRepository.save(shiftReport);
 
@@ -99,8 +99,8 @@ public class ShiftReportServiceImpl implements ShiftReportService {
     }
 
     @Override
-    public List<ShiftReportDto> getShiftReportByBranchId(Long branchId) {
-        return shiftReportRepository.findByBranchId(branchId).stream().map(ShiftReportMapper::toDTO).collect(Collectors.toList());
+    public List<ShiftReportDto> getShiftReportByStoreId(Long storeId) {
+        return shiftReportRepository.findByStoreId(storeId).stream().map(ShiftReportMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override

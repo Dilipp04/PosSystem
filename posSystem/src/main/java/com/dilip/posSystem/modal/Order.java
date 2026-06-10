@@ -24,7 +24,7 @@ public class Order {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    private Branch branch;
+    private Store store;
 
     @ManyToOne
     private User cashier;

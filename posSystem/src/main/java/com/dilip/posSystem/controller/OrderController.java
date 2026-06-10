@@ -29,16 +29,16 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
-    @GetMapping("/branch/{branchId}")
-    public ResponseEntity<List<OrderDto>> getOrderByBranch(
-            @PathVariable Long branchId,
+    @GetMapping("/store/{storeId}")
+    public ResponseEntity<List<OrderDto>> getOrderByStore(
+            @PathVariable Long storeId,
             @RequestParam(required = false) Long customerId,
             @RequestParam(required = false) Long cashierId,
             @RequestParam(required = false) PaymentType paymentType,
             @RequestParam(required = false) OrderStatus status
             )  {
-        return ResponseEntity.ok(orderService.getOrdersByBranch(
-                branchId,
+        return ResponseEntity.ok(orderService.getOrdersByStore(
+                storeId,
                 customerId,
                 cashierId,
                 paymentType,
@@ -61,18 +61,18 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderByCustomerId(customerId));
     }
 
-    @GetMapping("/today/branch/{branchId}")
-    public ResponseEntity<List<OrderDto>> getTodayOrdersByBranch(
-            @PathVariable Long branchId
+    @GetMapping("/today/store/{storeId}")
+    public ResponseEntity<List<OrderDto>> getTodayOrdersByStore(
+            @PathVariable Long storeId
     )  {
-        return ResponseEntity.ok(orderService.getTodayOrdersByBranch(branchId));
+        return ResponseEntity.ok(orderService.getTodayOrdersByStore(storeId));
     }
 
-    @GetMapping("/recent/{branchId}")
-    public ResponseEntity<List<OrderDto>> getRecentOrdersByBranch(
-            @PathVariable Long branchId
+    @GetMapping("/recent/{storeId}")
+    public ResponseEntity<List<OrderDto>> getRecentOrdersByStore(
+            @PathVariable Long storeId
     )  {
-        return ResponseEntity.ok(orderService.getTop5RecentOrdersByBranchId(branchId));
+        return ResponseEntity.ok(orderService.getTop5RecentOrdersByStoreId(storeId));
     }
 
     @DeleteMapping("/{id}")

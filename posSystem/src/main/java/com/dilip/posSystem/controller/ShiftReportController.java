@@ -57,12 +57,12 @@ public class ShiftReportController {
         );
     }
 
-    @GetMapping("/branch/{branchId}")
-    public ResponseEntity<List<ShiftReportDto>> getShiftReportByBranch(
-            @PathVariable Long branchId
+    @GetMapping("/store/{storeId}")
+    public ResponseEntity<List<ShiftReportDto>> getShiftReportByStore(
+            @PathVariable Long storeId
     ){
         return ResponseEntity.ok(
-                shiftReportService.getShiftReportByBranchId(branchId)
+                shiftReportService.getShiftReportByStoreId(storeId)
         );
     }
 

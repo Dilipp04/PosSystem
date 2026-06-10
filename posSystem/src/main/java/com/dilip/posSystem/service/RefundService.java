@@ -13,7 +13,7 @@ public interface RefundService {
     List<RefundDto> getRefundByCashier(Long cashierId);
     List<RefundDto> getRefundByShiftReport(Long shiftReportId);
     List<RefundDto> getRefundByCashierAndDateRange(Long cashierId, LocalDateTime startDate , LocalDateTime endDate);
-    List<RefundDto> getRefundByBranchId(Long branchId);
+    List<RefundDto> getRefundByStoreId(Long storeId);
     RefundDto getRefundById(Long id) throws Exception;
     void deleteRefund(Long id) throws Exception;
 

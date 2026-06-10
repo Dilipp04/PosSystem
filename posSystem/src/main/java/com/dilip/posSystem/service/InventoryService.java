@@ -10,7 +10,7 @@ public interface InventoryService {
     InventoryDto updateInventory(Long id,InventoryDto inventoryDto) throws Exception;
     void deleteInventory(Long id) throws Exception;
     InventoryDto getInventoryById(Long id) throws Exception;
-    InventoryDto getInventoryByProductIdAndBranchId(Long productId,Long branchId);
-    List<InventoryDto> getInventoryByBranchId(Long branchId);
+    InventoryDto getInventoryByProductIdAndStoreId(Long productId,Long storeId);
+    List<InventoryDto> getInventoryByStoreId(Long StoreId);
 
 }

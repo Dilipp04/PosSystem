@@ -1,9 +1,7 @@
 package com.dilip.posSystem.payload.dto;
 
 import com.dilip.posSystem.domain.PaymentType;
-import com.dilip.posSystem.modal.Branch;
 
-import com.dilip.posSystem.modal.ShiftReport;
 import com.dilip.posSystem.modal.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,8 +31,8 @@ public class RefundDto {
     private User cashier;
     private String cashierName;
 
-    private Branch branch;
-    private Long branchId;
+    private StoreDto store;
+    private Long storeId;
 
     private LocalDateTime createdAt;
     private PaymentType paymentType;

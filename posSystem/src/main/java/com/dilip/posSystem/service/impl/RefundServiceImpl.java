@@ -1,13 +1,11 @@
 package com.dilip.posSystem.service.impl;
 
-import com.dilip.posSystem.exceptions.UserException;
 import com.dilip.posSystem.mapper.RefundMapper;
-import com.dilip.posSystem.modal.Branch;
 import com.dilip.posSystem.modal.Order;
 import com.dilip.posSystem.modal.Refund;
+import com.dilip.posSystem.modal.Store;
 import com.dilip.posSystem.modal.User;
 import com.dilip.posSystem.payload.dto.RefundDto;
-import com.dilip.posSystem.repository.BranchRepository;
 import com.dilip.posSystem.repository.OrderRepository;
 import com.dilip.posSystem.repository.RefundRepository;
 import com.dilip.posSystem.service.RefundService;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,14 +28,14 @@ public class RefundServiceImpl implements RefundService {
         Order order = orderRepository.findById(refundDto.getOrderId()).orElseThrow(
                 ()-> new Exception("Order not found")
         );
-        Branch branch = order.getBranch();
+        Store store = order.getStore();
 
         Refund createdRefund = Refund.builder()
                 .order(order)
                 .reason(refundDto.getReason())
                 .amount(refundDto.getAmount())
                 .cashier(cashier)
-                .branch(branch)
+                .store(store)
                 .build();
         return RefundMapper.toDTO(refundRepository.save(createdRefund));
     }
@@ -64,8 +61,8 @@ public class RefundServiceImpl implements RefundService {
     }
 
     @Override
-    public List<RefundDto> getRefundByBranchId(Long branchId) {
-        return RefundMapper.toDtoList(refundRepository.findByBranchId(branchId));
+    public List<RefundDto> getRefundByStoreId(Long storeId) {
+        return RefundMapper.toDtoList(refundRepository.findByStoreId(storeId));
     }
 
     @Override

@@ -15,7 +15,6 @@ public class UserDto {
         private String phone;
         private UserRole role;
 
-        private Long branchId;
         private Long storeId;
 
         private LocalDateTime createdAt;

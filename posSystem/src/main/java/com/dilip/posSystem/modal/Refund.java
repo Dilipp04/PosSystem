@@ -35,7 +35,7 @@ public class Refund {
     private User cashier;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Branch branch;
+    private Store store;
 
     private LocalDateTime createdAt;
 

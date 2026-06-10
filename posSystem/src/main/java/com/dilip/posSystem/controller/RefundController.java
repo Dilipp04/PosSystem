@@ -53,9 +53,9 @@ public class RefundController {
         return ResponseEntity.ok(refundService.getRefundByShiftReport(shiftReportId));
     }
 
-    @GetMapping("/branch/{branchId}")
-    public ResponseEntity<List<RefundDto>> getRefundByBranch(@PathVariable Long branchId) {
-        return ResponseEntity.ok(refundService.getRefundByBranchId(branchId));
+    @GetMapping("/store/{storeId}")
+    public ResponseEntity<List<RefundDto>> getRefundByStore(@PathVariable Long storeId) {
+        return ResponseEntity.ok(refundService.getRefundByStoreId(storeId));
     }
 
     @DeleteMapping("/{id}")

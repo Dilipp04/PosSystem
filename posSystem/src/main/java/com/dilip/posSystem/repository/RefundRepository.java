@@ -16,6 +16,6 @@ public interface RefundRepository extends JpaRepository<Refund,Long> {
             LocalDateTime from ,
             LocalDateTime to
     );
-    List<Refund> findByBranchId(Long branchId);
+    List<Refund> findByStoreId(Long storeId);
 
 }

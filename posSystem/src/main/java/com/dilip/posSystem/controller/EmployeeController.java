@@ -24,13 +24,6 @@ public class EmployeeController {
         return ResponseEntity.ok(employee);
     }
 
-    @PostMapping("/branch/{branchId}")
-    public ResponseEntity<UserDto> createBranchEmployee(
-            @PathVariable Long branchId,
-            @RequestBody UserDto userDto) throws Exception {
-        UserDto employee = employeeService.createBranchEmployee(userDto, branchId);
-        return ResponseEntity.ok(employee);
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateEmployee(
@@ -54,14 +47,6 @@ public class EmployeeController {
             @PathVariable Long id,
             @RequestParam(required = false) UserRole userRole) throws Exception {
         List<UserDto> employees = employeeService.findStoreEmployees(id, userRole);
-        return ResponseEntity.ok(employees);
-    }
-
-    @GetMapping("/branch/{id}")
-    public ResponseEntity<List<UserDto>> branchEmployees(
-            @PathVariable Long id,
-            @RequestParam(required = false) UserRole userRole) throws Exception {
-        List<UserDto> employees = employeeService.findBranchEmployees(id, userRole);
         return ResponseEntity.ok(employees);
     }
 

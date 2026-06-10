@@ -7,6 +7,7 @@ import OrderHistory from './pages/cashier/Order History/OrderHistory'
 import RefundPage from './pages/cashier/Refund/RefundPage'
 import CashierRouters from './routes/CashierRouters'
 import { Route, Routes } from 'react-router'
+import Login from './pages/auth/Login'
 
 function App() {
 
