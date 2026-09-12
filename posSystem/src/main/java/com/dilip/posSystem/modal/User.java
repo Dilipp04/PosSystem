@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,32 +23,25 @@ public class User {
     private String fullName;
 
     @Column(nullable = false, unique = true)
-    @Email(message = "Email should Valid")
+    @Email(message = "Email should be valid")
     private String email;
 
     @ManyToOne
     private Store store;
 
-    @Column(nullable = false)
-    private String password;
+    @ManyToOne
+    private Branch branch;
 
     private String phone;
 
     @Column(nullable = false)
     private UserRole role;
 
+    @Column(nullable = false)
+    private String password;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime lastLogin;
-
-    @PrePersist
-    protected void onCreated() {
-        createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdated() {
-        updatedAt = LocalDateTime.now();
-    }
 
 }

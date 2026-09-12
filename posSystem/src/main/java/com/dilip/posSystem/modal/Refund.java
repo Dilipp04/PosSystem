@@ -2,7 +2,6 @@ package com.dilip.posSystem.modal;
 
 import com.dilip.posSystem.domain.PaymentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,8 +10,8 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Refund {
 
@@ -20,7 +19,7 @@ public class Refund {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Order order;
 
     private String reason;
@@ -31,18 +30,18 @@ public class Refund {
     @JsonIgnore
     private ShiftReport shiftReport;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private User cashier;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Store store;
-
-    private LocalDateTime createdAt;
+    @ManyToOne
+    private Branch branch;
 
     private PaymentType paymentType;
 
+    private LocalDateTime createdAt;
+
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
     }
 }

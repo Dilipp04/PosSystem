@@ -1,5 +1,6 @@
 package com.dilip.posSystem.modal;
 
+import com.dilip.posSystem.domain.StoreStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,7 +28,6 @@ public class Product {
 
     private Double mrp;
     private Double sellingPrice;
-
     private String brand;
     private String image;
 
@@ -40,13 +41,13 @@ public class Product {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    protected void onCreated() {
+    protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    protected void onUpdated() {
+    protected void onUpdate() {
         updatedAt = LocalDateTime.now();
-    }
 
+    }
 }

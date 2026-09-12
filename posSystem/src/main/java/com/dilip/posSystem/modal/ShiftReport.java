@@ -1,6 +1,5 @@
 package com.dilip.posSystem.modal;
 
-import com.dilip.posSystem.modal.*;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -9,8 +8,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ShiftReport {
 
@@ -21,16 +20,16 @@ public class ShiftReport {
     private LocalDateTime shiftStart;
     private LocalDateTime shiftEnd;
 
-    private Double totalSales = 0.0;
-    private Double totalRefunds = 0.0;
-    private Double netSales = 0.0;
-    private int totalOrders = 0;
+    private Double totalSales;
+    private Double totalRefunds;
+    private Double netSale;
+    private int totalOrders;
 
     @ManyToOne
     private User cashier;
 
     @ManyToOne
-    private Store store;
+    private Branch branch;
 
     @Transient
     private List<PaymentSummary> paymentSummaries;

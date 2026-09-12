@@ -1,6 +1,7 @@
 package com.dilip.posSystem.modal;
 
 import com.dilip.posSystem.domain.PaymentType;
+import com.razorpay.Payment;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,13 +9,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,7 +26,7 @@ public class Order {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    private Store store;
+    private Branch branch;
 
     @ManyToOne
     private User cashier;
@@ -32,13 +34,14 @@ public class Order {
     @ManyToOne
     private Customer customer;
 
-    private PaymentType paymentType;
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
+
+    private PaymentType paymentType;
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
 }

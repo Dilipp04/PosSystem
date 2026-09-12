@@ -2,19 +2,27 @@ package com.dilip.posSystem.service;
 
 import com.dilip.posSystem.exceptions.UserException;
 import com.dilip.posSystem.modal.ShiftReport;
-import com.dilip.posSystem.payload.dto.ShiftReportDto;
+import com.dilip.posSystem.payload.dto.ShiftReportDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ShiftReportService {
-    ShiftReportDto startShift() throws Exception;
-    ShiftReportDto endShift(Long shiftReportId,LocalDateTime shiftEnd) throws Exception;
-    ShiftReportDto getShiftReportById(Long id) throws Exception;
-    List<ShiftReportDto> getAllShiftReports();
-    List<ShiftReportDto> getShiftReportByStoreId(Long storeId);
-    List<ShiftReportDto> getShiftReportByCashierId(Long cashierId);
-    ShiftReportDto getCurrentShiftProgress(Long cashierId) throws Exception;
-    ShiftReportDto getShiftByCashierAndDate(Long cashierId, LocalDateTime date) throws Exception;
 
- }
+    ShiftReportDTO startShift() throws Exception;
+
+    ShiftReportDTO endShift(Long shiftReportId, LocalDateTime shiftEnd) throws Exception;
+
+    ShiftReportDTO getShiftReportById(Long id) throws Exception;
+
+    List<ShiftReportDTO> getAllShiftReports();
+
+    List<ShiftReportDTO> getShiftReportsByBranchId(Long branchId);
+
+    List<ShiftReportDTO> getShiftReportsByCashierId(Long cashierId);
+
+    ShiftReportDTO getCurrentShiftProgress(Long cashierId) throws Exception;
+
+    ShiftReportDTO getShiftByCashierAndDate(Long cashierId, LocalDateTime date) throws Exception;
+
+}

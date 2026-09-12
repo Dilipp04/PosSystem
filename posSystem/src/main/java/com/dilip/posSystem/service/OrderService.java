@@ -2,21 +2,29 @@ package com.dilip.posSystem.service;
 
 import com.dilip.posSystem.domain.OrderStatus;
 import com.dilip.posSystem.domain.PaymentType;
-import com.dilip.posSystem.payload.dto.OrderDto;
+import com.dilip.posSystem.payload.dto.OrderDTO;
 
 import java.util.List;
 
 public interface OrderService {
-    OrderDto createOrder(OrderDto orderDto) throws Exception;
-    OrderDto getOrderById(Long id) throws Exception;
-    List<OrderDto> getOrdersByStore(Long StoreId,
-                                     Long customerId,
-                                     Long cashierId,
-                                     PaymentType paymentType,
-                                     OrderStatus status);
-    List<OrderDto> getOrderByCashier(Long cashierId);
+
+    OrderDTO createOrder(OrderDTO orderDTO) throws Exception;
+
+    OrderDTO getOrderById(Long id) throws Exception;
+
+    List<OrderDTO> getOrdersByBranch(Long branchId,
+            Long customerId,
+            Long cashierId,
+            PaymentType paymentType,
+            OrderStatus status) throws Exception;
+
+    List<OrderDTO> getOrderByCashier(Long cashierId);
+
     void deleteOrder(Long id) throws Exception;
-    List<OrderDto> getTodayOrdersByStore(Long storeId);
-    List<OrderDto> getOrderByCustomerId(Long customerId);
-    List<OrderDto> getTop5RecentOrdersByStoreId(Long storeId);
+
+    List<OrderDTO> getTodayOrdersByBranch(Long branchId) throws Exception;
+
+    List<OrderDTO> getOrdersByCustomerId(Long customerId) throws Exception;
+
+    List<OrderDTO> getTop5RecentOrdersByBranchId(Long branchId) throws Exception;
 }

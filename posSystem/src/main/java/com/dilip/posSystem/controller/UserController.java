@@ -10,30 +10,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
 
     @GetMapping("/profile")
     public ResponseEntity<UserDto> getUserProfile(
-            @RequestHeader("Authorization") String jwt
-    ) throws UserException {
-       User user =  userService.getUserFromJwtToken(jwt);
-       return ResponseEntity.ok(UserMapper.toDTO(user));
+            @RequestHeader("Authorization") String jwt) throws UserException {
+        User user = userService.getUserFromJwtToken(jwt);
+        return ResponseEntity.ok(UserMapper.toDTO(user));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(
             @RequestHeader("Authorization") String jwt,
-            @PathVariable Long id
-    ) throws UserException {
-        User user =  userService.getUserById(id);
-        if(user==null){
-            throw new UserException("User not found");
-        }
+            @PathVariable long id) throws UserException, Exception {
+        User user = userService.getUserById(id);
         return ResponseEntity.ok(UserMapper.toDTO(user));
-
     }
 
 }

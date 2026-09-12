@@ -5,7 +5,7 @@ import com.dilip.posSystem.mapper.CategoryMapper;
 import com.dilip.posSystem.modal.Category;
 import com.dilip.posSystem.modal.Store;
 import com.dilip.posSystem.modal.User;
-import com.dilip.posSystem.payload.dto.CategoryDto;
+import com.dilip.posSystem.payload.dto.CategoryDTO;
 import com.dilip.posSystem.repository.CategoryRepository;
 import com.dilip.posSystem.repository.StoreRepository;
 import com.dilip.posSystem.service.CategoryService;
@@ -19,47 +19,47 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
+
     private final CategoryRepository categoryRepository;
     private final UserService userService;
     private final StoreRepository storeRepository;
 
     @Override
-    public CategoryDto createCategory(CategoryDto dto) throws Exception {
+    public CategoryDTO createCategory(CategoryDTO dto) throws Exception {
         User user = userService.getCurrentUser();
+
         Store store = storeRepository.findById(dto.getStoreId()).orElseThrow(
                 () -> new Exception("Store not found"));
+
         Category category = Category.builder()
-
-                .name(dto.getName())
                 .store(store)
+                .name(dto.getName())
                 .build();
-
         checkAuthority(user, category.getStore());
-
         return CategoryMapper.toDTO(categoryRepository.save(category));
     }
 
     @Override
-    public List<CategoryDto> getCategoryByStore(Long storeId) {
+    public List<CategoryDTO> getCategoriesByStore(Long storeId) {
         List<Category> categories = categoryRepository.findByStoreId(storeId);
-        return categories.stream().map(CategoryMapper::toDTO).collect(Collectors.toList());
+        return categories.stream().map(
+                CategoryMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public CategoryDto updateCategory(Long id, CategoryDto dto) throws Exception {
-        User user = userService.getCurrentUser();
+    public CategoryDTO updateCategory(Long id, CategoryDTO dto) throws Exception {
         Category category = categoryRepository.findById(id).orElseThrow(
-                () -> new Exception("Category not found"));
-        checkAuthority(user, category.getStore());
+                () -> new Exception("category not exist"));
+        User user = userService.getCurrentUser();
         category.setName(dto.getName());
-
+        checkAuthority(user, category.getStore());
         return CategoryMapper.toDTO(categoryRepository.save(category));
     }
 
     @Override
     public void deleteCategory(Long id) throws Exception {
         Category category = categoryRepository.findById(id).orElseThrow(
-                () -> new Exception("Category not found"));
+                () -> new Exception("category not exist"));
         User user = userService.getCurrentUser();
         checkAuthority(user, category.getStore());
         categoryRepository.delete(category);
@@ -67,12 +67,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     private void checkAuthority(User user, Store store) throws Exception {
         boolean isAdmin = user.getRole().equals(UserRole.ROLE_STORE_ADMIN);
-        boolean isSameStore = user.equals(store.getAdmin());
+        boolean isManager = user.getRole().equals(UserRole.ROLE_STORE_MANAGER);
+        boolean isSameStore = user.equals(store.getStoreAdmin());
 
-        if (!(isAdmin && isSameStore)) {
-            throw new Exception("You don't have permission to manage this category");
-
+        if (!(isAdmin && isSameStore) && !isManager) {
+            throw new Exception("you don't have permission to manage this category");
         }
-
     }
 }

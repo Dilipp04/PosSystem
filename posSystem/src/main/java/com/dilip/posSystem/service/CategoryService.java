@@ -1,16 +1,18 @@
 package com.dilip.posSystem.service;
 
-import com.dilip.posSystem.payload.dto.CategoryDto;
+import com.dilip.posSystem.exceptions.UserException;
+import com.dilip.posSystem.modal.Category;
+import com.dilip.posSystem.payload.dto.CategoryDTO;
 
 import java.util.List;
 
 public interface CategoryService {
 
-    CategoryDto createCategory(CategoryDto dto) throws Exception;
+    CategoryDTO createCategory(CategoryDTO dto) throws Exception;
 
-    List<CategoryDto> getCategoryByStore(Long storeId);
+    List<CategoryDTO> getCategoriesByStore(Long storeId);
 
-    CategoryDto updateCategory(Long id, CategoryDto dto) throws Exception;
+    CategoryDTO updateCategory(Long id, CategoryDTO dto) throws Exception;
 
     void deleteCategory(Long id) throws Exception;
 }

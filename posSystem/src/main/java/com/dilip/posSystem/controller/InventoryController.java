@@ -1,6 +1,6 @@
 package com.dilip.posSystem.controller;
 
-import com.dilip.posSystem.payload.dto.InventoryDto;
+import com.dilip.posSystem.payload.dto.InventoryDTO;
 import com.dilip.posSystem.payload.response.ApiResponse;
 import com.dilip.posSystem.service.InventoryService;
 import lombok.RequiredArgsConstructor;
@@ -13,52 +13,45 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/inventories")
 public class InventoryController {
+
     private final InventoryService inventoryService;
 
-    @PostMapping("")
-    public ResponseEntity<InventoryDto> createInventory(
-            @RequestBody InventoryDto inventoryDto
-    ) throws Exception {
-        return ResponseEntity.ok(inventoryService.createInventory(inventoryDto));
+    @PostMapping
+    public ResponseEntity<InventoryDTO> create(
+            @RequestBody InventoryDTO inventoryDTO) throws Exception {
+        return ResponseEntity.ok(inventoryService.createInventory(inventoryDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InventoryDto> updateInventory(
-            @PathVariable Long id,
-            @RequestBody InventoryDto inventoryDto
-    ) throws Exception {
-        return ResponseEntity.ok(inventoryService.updateInventory(id,inventoryDto));
-    }
+    public ResponseEntity<InventoryDTO> update(
+            @RequestBody InventoryDTO inventoryDTO,
+            @PathVariable Long id) throws Exception {
 
-    @GetMapping("/{id}")
-    public ResponseEntity<InventoryDto> getInventoryById(
-            @PathVariable Long id
-    ) throws Exception {
-        return ResponseEntity.ok(inventoryService.getInventoryById(id));
+        return ResponseEntity.ok(inventoryService.updateInventory(id, inventoryDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteInventory(
-            @PathVariable Long id
-    ) throws Exception {
+    public ResponseEntity<ApiResponse> delete(
+            @PathVariable Long id) throws Exception {
         inventoryService.deleteInventory(id);
-        ApiResponse apiResponse=new ApiResponse();
-        apiResponse.setMessage("Inventory Deleted Successfully");
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setMessage("Inventory deleted successfully");
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/store/{storeId}")
-    public ResponseEntity<List<InventoryDto>> getInventoryByStore(
-            @PathVariable Long storeId
-    ){
-        return ResponseEntity.ok(inventoryService.getInventoryByStoreId(storeId));
+    @GetMapping("/branch/{branchId}/product/{productId}")
+    public ResponseEntity<InventoryDTO> getInventoryByProductAndBranchId(
+            @PathVariable Long branchId,
+            @PathVariable Long productId) throws Exception {
+        return ResponseEntity.ok(inventoryService
+                .getInventoryByProductIdAndBranchId(productId, branchId));
     }
 
-    @GetMapping("/store/{storeId}/product/{productId}")
-    public ResponseEntity<InventoryDto> getInventoryByProductAndStore(
-            @PathVariable Long productId,
-            @PathVariable Long storeId
-    )  {
-        return ResponseEntity.ok(inventoryService.getInventoryByProductIdAndStoreId(productId,storeId));
+    @GetMapping("/branch/{branchId}")
+    public ResponseEntity<List<InventoryDTO>> getInventoryByBranch(
+            @PathVariable Long branchId) throws Exception {
+        return ResponseEntity.ok(inventoryService.getAllInventoryByBranchId(branchId));
     }
+
 }

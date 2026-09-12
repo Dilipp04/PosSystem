@@ -1,8 +1,5 @@
 package com.dilip.posSystem.domain;
 
 public enum PaymentType {
-    CASH,
-    UPI,
-    CARD,
-
+    CASH, UPI, CARD
 }

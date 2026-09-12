@@ -1,13 +1,13 @@
 package com.dilip.posSystem.service.impl;
 
 import com.dilip.posSystem.mapper.InventoryMapper;
+import com.dilip.posSystem.modal.Branch;
 import com.dilip.posSystem.modal.Inventory;
 import com.dilip.posSystem.modal.Product;
-import com.dilip.posSystem.modal.Store;
-import com.dilip.posSystem.payload.dto.InventoryDto;
+import com.dilip.posSystem.payload.dto.InventoryDTO;
+import com.dilip.posSystem.repository.BranchRepository;
 import com.dilip.posSystem.repository.InventoryRepository;
 import com.dilip.posSystem.repository.ProductRepository;
-import com.dilip.posSystem.repository.StoreRepository;
 import com.dilip.posSystem.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,57 +18,59 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
+
     private final InventoryRepository inventoryRepository;
+    private final BranchRepository branchRepository;
     private final ProductRepository productRepository;
-    private final StoreRepository storeRepository;
 
     @Override
-    public InventoryDto createInventory(InventoryDto inventoryDto) throws Exception {
-        Store store = storeRepository.findById(inventoryDto.getStoreId()).orElseThrow(
-                ()-> new Exception("store Not Found")
-        );
-        Product product = productRepository.findById(inventoryDto.getProductId()).orElseThrow(
-                ()->new Exception("Product Not found")
-        );
-        Inventory savedInventory = InventoryMapper.toEntity(inventoryDto,store,product);
-        return InventoryMapper.toDTO(inventoryRepository.save(savedInventory));
+    public InventoryDTO createInventory(InventoryDTO inventoryDTO) throws Exception {
+        Branch branch = branchRepository.findById(inventoryDTO.getBranchId()).orElseThrow(
+                () -> new Exception("branch not exist..."));
+        Product product = productRepository.findById(inventoryDTO.getProductId()).orElseThrow(
+                () -> new Exception("product not exist..."));
+
+        Inventory inventory = InventoryMapper.toEntity(inventoryDTO, branch, product);
+        Inventory savedInventory = inventoryRepository.save(inventory);
+        return InventoryMapper.toDTO(savedInventory);
     }
 
     @Override
-    public InventoryDto updateInventory(Long id,InventoryDto inventoryDto) throws Exception {
-        Inventory existing = inventoryRepository.findById(id).orElseThrow(
-                ()-> new Exception("Inventory Not Found")
-        );
-        existing.setQuantity(inventoryDto.getQuantity());
-        return InventoryMapper.toDTO(inventoryRepository.save(existing));
+    public InventoryDTO updateInventory(Long id, InventoryDTO inventoryDTO) throws Exception {
+        Inventory inventory = inventoryRepository.findById(id).orElseThrow(
+                () -> new Exception("inventory not found..."));
+        inventory.setQuantity(inventoryDTO.getQuantity());
+
+        Inventory updatedInventory = inventoryRepository.save(inventory);
+        return InventoryMapper.toDTO(updatedInventory);
     }
 
     @Override
     public void deleteInventory(Long id) throws Exception {
-        Inventory existing = inventoryRepository.findById(id).orElseThrow(
-                ()-> new Exception("Inventory Not Found")
-        );
-        inventoryRepository.delete(existing);
-    }
-
-    @Override
-    public InventoryDto getInventoryById(Long id) throws Exception {
         Inventory inventory = inventoryRepository.findById(id).orElseThrow(
-                ()-> new Exception("Inventory Not Found")
-        );
+                () -> new Exception("inventory not found..."));
+        inventoryRepository.delete(inventory);
+
+    }
+
+    @Override
+    public InventoryDTO getInventoryById(Long id) throws Exception {
+        Inventory inventory = inventoryRepository.findById(id).orElseThrow(
+                () -> new Exception("inventory not found..."));
         return InventoryMapper.toDTO(inventory);
     }
 
     @Override
-    public InventoryDto getInventoryByProductIdAndStoreId(Long productId, Long storeId) {
+    public InventoryDTO getInventoryByProductIdAndBranchId(Long productId, Long branchId) {
+        Inventory inventory = inventoryRepository.findByProductIdAndBranchId(productId, branchId);
 
-        Inventory inventory = inventoryRepository.findByProductIdAndStoreId(productId,storeId);
         return InventoryMapper.toDTO(inventory);
     }
 
     @Override
-    public List<InventoryDto> getInventoryByStoreId(Long storeId) {
-        List<Inventory> inventories = inventoryRepository.findByStoreId(storeId);
-        return inventories.stream().map(InventoryMapper::toDTO).collect(Collectors.toList());
+    public List<InventoryDTO> getAllInventoryByBranchId(Long branchId) {
+        List<Inventory> inventories = inventoryRepository.findByBranchId(branchId);
+        return inventories.stream().map(
+                InventoryMapper::toDTO).collect(Collectors.toList());
     }
 }

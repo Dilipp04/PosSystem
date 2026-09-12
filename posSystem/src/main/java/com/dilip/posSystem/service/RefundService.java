@@ -1,20 +1,28 @@
 package com.dilip.posSystem.service;
 
-import com.dilip.posSystem.exceptions.UserException;
 import com.dilip.posSystem.modal.Refund;
-import com.dilip.posSystem.payload.dto.RefundDto;
+import com.dilip.posSystem.payload.dto.RefundDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RefundService {
-    RefundDto createRefund(RefundDto refundDto) throws Exception;
-    List<RefundDto> getAllRefunds();
-    List<RefundDto> getRefundByCashier(Long cashierId);
-    List<RefundDto> getRefundByShiftReport(Long shiftReportId);
-    List<RefundDto> getRefundByCashierAndDateRange(Long cashierId, LocalDateTime startDate , LocalDateTime endDate);
-    List<RefundDto> getRefundByStoreId(Long storeId);
-    RefundDto getRefundById(Long id) throws Exception;
-    void deleteRefund(Long id) throws Exception;
 
+    RefundDTO createRefund(RefundDTO refund) throws Exception;
+
+    List<RefundDTO> getAllRefunds() throws Exception;
+
+    List<RefundDTO> getRefundByCashier(Long cashierId) throws Exception;
+
+    List<RefundDTO> getRefundByShiftReport(Long shiftReportId) throws Exception;
+
+    List<RefundDTO> getRefundByCashierAndDateRange(Long cashierId,
+            LocalDateTime startDate,
+            LocalDateTime endDate) throws Exception;
+
+    List<RefundDTO> getRefundByBranch(Long branchId) throws Exception;
+
+    RefundDTO getRefundById(Long refundId) throws Exception;
+
+    void deleteRefund(Long refundId) throws Exception;
 }

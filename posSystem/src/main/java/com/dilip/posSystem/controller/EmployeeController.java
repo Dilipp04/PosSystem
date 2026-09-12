@@ -1,6 +1,7 @@
 package com.dilip.posSystem.controller;
 
 import com.dilip.posSystem.domain.UserRole;
+import com.dilip.posSystem.modal.User;
 import com.dilip.posSystem.payload.dto.UserDto;
 import com.dilip.posSystem.payload.response.ApiResponse;
 import com.dilip.posSystem.service.EmployeeService;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/employees")
 public class EmployeeController {
+
     private final EmployeeService employeeService;
 
     @PostMapping("/store/{storeId}")
@@ -24,12 +26,19 @@ public class EmployeeController {
         return ResponseEntity.ok(employee);
     }
 
+    @PostMapping("/branch/{branchId}")
+    public ResponseEntity<UserDto> createBranchEmployee(
+            @PathVariable Long branchId,
+            @RequestBody UserDto userDto) throws Exception {
+        UserDto employee = employeeService.createBranchEmployee(userDto, branchId);
+        return ResponseEntity.ok(employee);
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateEmployee(
+    public ResponseEntity<User> updateEmployee(
             @PathVariable Long id,
             @RequestBody UserDto userDto) throws Exception {
-        UserDto employee = employeeService.updateEmployee(id, userDto);
+        User employee = employeeService.updateEmployee(id, userDto);
         return ResponseEntity.ok(employee);
     }
 
@@ -38,16 +47,23 @@ public class EmployeeController {
             @PathVariable Long id) throws Exception {
         employeeService.deleteEmployee(id);
         ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setMessage("Employee deleted successfully");
+        apiResponse.setMessage("employee deleted successfully");
         return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping("/store/{id}")
-    public ResponseEntity<List<UserDto>> storeEmployees(
+    public ResponseEntity<List<UserDto>> storeEmployee(
             @PathVariable Long id,
             @RequestParam(required = false) UserRole userRole) throws Exception {
-        List<UserDto> employees = employeeService.findStoreEmployees(id, userRole);
-        return ResponseEntity.ok(employees);
+        List<UserDto> employee = employeeService.findStoreEmployees(id, userRole);
+        return ResponseEntity.ok(employee);
     }
 
+    @GetMapping("/branch/{id}")
+    public ResponseEntity<List<UserDto>> branchEmployee(
+            @PathVariable Long id,
+            @RequestParam(required = false) UserRole userRole) throws Exception {
+        List<UserDto> employee = employeeService.findBranchEmployees(id, userRole);
+        return ResponseEntity.ok(employee);
+    }
 }

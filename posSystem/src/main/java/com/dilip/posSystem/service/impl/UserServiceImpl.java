@@ -17,12 +17,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
+
     @Override
     public User getUserFromJwtToken(String token) throws UserException {
-        String email = jwtProvider.generateEmailFromToken(token);
+
+        String email = jwtProvider.getEmailFromToken(token);
         User user = userRepository.findByEmail(email);
-        if(user == null){
-            throw new UserException("Invalid Token");
+        if (user == null) {
+            throw new UserException("Invalid token");
         }
         return user;
     }
@@ -31,28 +33,25 @@ public class UserServiceImpl implements UserService {
     public User getCurrentUser() throws UserException {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email);
-        if(user == null){
-            throw new UserException("User not found");
+        if (user == null) {
+            throw new UserException("user not found");
         }
-
         return user;
     }
 
     @Override
     public User getUserByEmail(String email) throws UserException {
         User user = userRepository.findByEmail(email);
-        if(user == null){
-            throw new UserException("User not found");
+        if (user == null) {
+            throw new UserException("user not found");
         }
-
         return user;
     }
 
     @Override
-    public User getUserById(Long id) throws UserException {
+    public User getUserById(long id) throws UserException, Exception {
         return userRepository.findById(id).orElseThrow(
-                ()-> new UserException("User Not Found")
-        );
+                () -> new Exception("user not found"));
     }
 
     @Override

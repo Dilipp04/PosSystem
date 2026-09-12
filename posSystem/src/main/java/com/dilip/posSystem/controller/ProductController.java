@@ -1,7 +1,7 @@
 package com.dilip.posSystem.controller;
 
 import com.dilip.posSystem.modal.User;
-import com.dilip.posSystem.payload.dto.ProductDto;
+import com.dilip.posSystem.payload.dto.ProductDTO;
 import com.dilip.posSystem.payload.response.ApiResponse;
 import com.dilip.posSystem.service.ProductService;
 import com.dilip.posSystem.service.UserService;
@@ -18,67 +18,62 @@ public class ProductController {
         private final ProductService productService;
         private final UserService userService;
 
-        @PostMapping("")
-        public ResponseEntity<ProductDto> createProduct(
-                        @RequestBody ProductDto productDto,
+        @PostMapping
+        public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO productDTO,
                         @RequestHeader("Authorization") String jwt) throws Exception {
+
                 User user = userService.getUserFromJwtToken(jwt);
                 return ResponseEntity.ok(
                                 productService.createProduct(
-                                                productDto,
-                                                user));
-        }
+                                                productDTO, user));
 
-        @GetMapping("/{id}")
-        public ResponseEntity<ProductDto> getProductById(
-                        @PathVariable Long id,
-                        @RequestHeader("Authorization") String jwt) throws Exception {
-                User user = userService.getUserFromJwtToken(jwt);
-                return ResponseEntity.ok(
-                                productService.getProduct(id, user));
         }
 
         @GetMapping("/store/{storeId}")
-        public ResponseEntity<List<ProductDto>> getByStoreId(
-                        @PathVariable Long storeId,
-                        @RequestHeader("Authorization") String jwt) {
-                return ResponseEntity.ok(
-                                productService.getProductsByStoreId(storeId));
-        }
+        public ResponseEntity<List<ProductDTO>> getByStoreId(@PathVariable Long storeId,
+                        @RequestHeader("Authorization") String jwt) throws Exception {
 
-        @GetMapping("/store/{storeId}/search")
-        public ResponseEntity<List<ProductDto>> searchByKeyword(
-                        @PathVariable Long storeId,
-                        @RequestParam("keyword") String keyword,
-                        @RequestHeader("Authorization") String jwt) {
                 return ResponseEntity.ok(
-                                productService.searchByKeyword(storeId, keyword));
+                                productService.getProductsByStoreId(
+                                                storeId));
+
         }
 
         @PatchMapping("/{id}")
-        public ResponseEntity<ProductDto> updateProduct(
-                        @PathVariable Long id,
-                        @RequestBody ProductDto productDto,
+        public ResponseEntity<ProductDTO> update(@PathVariable Long id,
+                        @RequestBody ProductDTO productDTO,
                         @RequestHeader("Authorization") String jwt) throws Exception {
-                User user = userService.getUserFromJwtToken(jwt);
 
+                User user = userService.getUserFromJwtToken(jwt);
                 return ResponseEntity.ok(
                                 productService.updateProduct(
-                                                id,
-                                                productDto,
-                                                user));
+                                                id, productDTO, user));
+
+        }
+
+        @GetMapping("/store/{storeId}/search")
+        public ResponseEntity<List<ProductDTO>> searchByKeyword(@PathVariable Long storeId,
+                        @RequestParam String keyword,
+                        @RequestHeader("Authorization") String jwt) throws Exception {
+
+                return ResponseEntity.ok(
+                                productService.searchByKeyword(
+                                                storeId, keyword));
+
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<ApiResponse> deleteProduct(
-                        @PathVariable Long id,
+        public ResponseEntity<ApiResponse> delete(@PathVariable Long id,
                         @RequestHeader("Authorization") String jwt) throws Exception {
-                User user = userService.getUserFromJwtToken(jwt);
-                productService.deleteProduct(id, user);
-                ApiResponse apiResponse = new ApiResponse();
-                apiResponse.setMessage("Product Deleted Successfully");
 
+                User user = userService.getUserFromJwtToken(jwt);
+
+                productService.deleteProduct(
+                                id, user);
+                ApiResponse apiResponse = new ApiResponse();
+                apiResponse.setMessage("Product deleted successfully");
                 return ResponseEntity.ok(
                                 apiResponse);
+
         }
 }

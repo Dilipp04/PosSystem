@@ -1,17 +1,22 @@
 package com.dilip.posSystem.payload.dto;
 
+import com.dilip.posSystem.modal.Store;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CategoryDto {
+public class CategoryDTO {
+
     private Long id;
+
     private String name;
+
     // private Store store;
+
     private Long storeId;
 }

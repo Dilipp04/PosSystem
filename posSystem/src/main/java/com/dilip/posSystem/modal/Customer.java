@@ -2,6 +2,7 @@ package com.dilip.posSystem.modal;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,14 +26,4 @@ public class Customer {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreated() {
-        createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdated() {
-        updatedAt = LocalDateTime.now();
-    }
 }

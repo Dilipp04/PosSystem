@@ -1,6 +1,6 @@
 package com.dilip.posSystem.controller;
 
-import com.dilip.posSystem.payload.dto.ShiftReportDto;
+import com.dilip.posSystem.payload.dto.ShiftReportDTO;
 import com.dilip.posSystem.service.ShiftReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,72 +15,60 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/shift-reports")
 public class ShiftReportController {
-    private final ShiftReportService shiftReportService;
 
-    @PostMapping("/start")
-    public ResponseEntity<ShiftReportDto> startShift() throws Exception {
-        return ResponseEntity.ok(
-                shiftReportService.startShift()
-        );
-    }
+        private final ShiftReportService shiftReportService;
 
-    @PatchMapping("/end")
-    public ResponseEntity<ShiftReportDto> endShift(Long shiftReportId) throws Exception {
-        return ResponseEntity.ok(
-                shiftReportService.endShift(null,null)
-        );
-    }
+        @PostMapping("/start")
+        public ResponseEntity<ShiftReportDTO> startShift() throws Exception {
+                return ResponseEntity.ok(
+                                shiftReportService.startShift());
+        }
 
-    @GetMapping("/current")
-    public ResponseEntity<ShiftReportDto> getCurrentShiftProgress() throws Exception {
-        return ResponseEntity.ok(
-                shiftReportService.getCurrentShiftProgress(null)
-        );
-    }
+        @PatchMapping("/end")
+        public ResponseEntity<ShiftReportDTO> endShift() throws Exception {
+                return ResponseEntity.ok(
+                                shiftReportService.endShift(null, null));
+        }
 
-    @GetMapping("/cashier/{cashierId}/by-date")
-    public ResponseEntity<ShiftReportDto>  getShiftReportByDate(
-            @PathVariable Long cashierId,
-            @RequestParam @DateTimeFormat (iso=DateTimeFormat.ISO.DATE) LocalDateTime date
-    ) throws Exception{
-        return ResponseEntity.ok(
-                shiftReportService.getShiftByCashierAndDate(cashierId,date)
-        );
-    }
+        @GetMapping("/current")
+        public ResponseEntity<ShiftReportDTO> getCurrentShiftProgress() throws Exception {
+                return ResponseEntity.ok(
 
-    @GetMapping("/cashier/{cashierId}")
-    public ResponseEntity<List<ShiftReportDto>> getShiftReportByCashier(
-            @PathVariable Long cashierId
-    ){
-        return ResponseEntity.ok(
-            shiftReportService.getShiftReportByCashierId(cashierId)
-        );
-    }
+                                shiftReportService.getCurrentShiftProgress(null));
+        }
 
-    @GetMapping("/store/{storeId}")
-    public ResponseEntity<List<ShiftReportDto>> getShiftReportByStore(
-            @PathVariable Long storeId
-    ){
-        return ResponseEntity.ok(
-                shiftReportService.getShiftReportByStoreId(storeId)
-        );
-    }
+        @GetMapping("/cashier/{cashierId}/by-date")
+        public ResponseEntity<ShiftReportDTO> getShiftReportByDate(
+                        @PathVariable Long cashierId,
+                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date)
+                        throws Exception {
+                return ResponseEntity.ok(
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ShiftReportDto> getById(
-            @PathVariable Long id
-    ) throws Exception {
-        return ResponseEntity.ok(shiftReportService.getShiftReportById(id));
-    }
+                                shiftReportService.getShiftByCashierAndDate(cashierId, date));
+        }
 
+        @GetMapping("/cashier/{cashierId}")
+        public ResponseEntity<List<ShiftReportDTO>> getShiftReportByCashier(
+                        @PathVariable Long cashierId) throws Exception {
+                return ResponseEntity.ok(
 
+                                shiftReportService.getShiftReportsByCashierId(cashierId));
+        }
 
+        @GetMapping("/branch/{branchId}")
+        public ResponseEntity<List<ShiftReportDTO>> getShiftReportByBranch(
+                        @PathVariable Long branchId) throws Exception {
+                return ResponseEntity.ok(
 
+                                shiftReportService.getShiftReportsByBranchId(branchId));
+        }
 
+        @GetMapping("/{id}")
+        public ResponseEntity<ShiftReportDTO> getShiftReportById(
+                        @PathVariable Long id) throws Exception {
+                return ResponseEntity.ok(
 
-
-
-
-    
+                                shiftReportService.getShiftReportById(id));
+        }
 
 }

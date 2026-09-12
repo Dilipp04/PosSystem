@@ -1,32 +1,29 @@
 package com.dilip.posSystem.mapper;
 
+import com.dilip.posSystem.modal.Branch;
 import com.dilip.posSystem.modal.Inventory;
 import com.dilip.posSystem.modal.Product;
-import com.dilip.posSystem.modal.Store;
-import com.dilip.posSystem.payload.dto.InventoryDto;
+import com.dilip.posSystem.payload.dto.InventoryDTO;
 
 public class InventoryMapper {
-    public static InventoryDto toDTO(Inventory inventory){
-        return InventoryDto.builder()
+
+    public static InventoryDTO toDTO(Inventory inventory) {
+        return InventoryDTO.builder()
                 .id(inventory.getId())
-                .storeId(inventory.getStore().getId())
+                .branchId(inventory.getBranch().getId())
                 .productId(inventory.getProduct().getId())
                 .product(ProductMapper.toDTO(inventory.getProduct()))
                 .quantity(inventory.getQuantity())
-                .lastUpdated(inventory.getLastUpdated())
                 .build();
-
     }
 
-    public static Inventory toEntity(
-            InventoryDto inventoryDto,
-            Store store,
-            Product product
-    ){
+    public static Inventory toEntity(InventoryDTO inventoryDTO,
+            Branch branch,
+            Product product) {
         return Inventory.builder()
-                .store(store)
+                .branch(branch)
                 .product(product)
-                .quantity(inventoryDto.getQuantity())
+                .quantity(inventoryDTO.getQuantity())
                 .build();
     }
 }

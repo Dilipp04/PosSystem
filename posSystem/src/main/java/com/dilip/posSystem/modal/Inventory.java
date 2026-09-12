@@ -12,12 +12,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Inventory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    private Store store;
+    private Branch branch;
 
     @ManyToOne
     private Product product;
@@ -25,11 +26,11 @@ public class Inventory {
     @Column(nullable = false)
     private Integer quantity;
 
-    private LocalDateTime lastUpdated;
+    private LocalDateTime lastUpdate;
 
     @PrePersist
     @PreUpdate
-    protected void onUpdate(){
-        lastUpdated = LocalDateTime.now();
+    protected void onUpdate() {
+        lastUpdate = LocalDateTime.now();
     }
 }

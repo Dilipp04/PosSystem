@@ -6,12 +6,12 @@ import com.dilip.posSystem.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
+
     private final CustomerRepository customerRepository;
 
     @Override
@@ -21,38 +21,36 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer updateCustomer(Long id, Customer customer) throws Exception {
-        Customer existing = customerRepository.findById(id).orElseThrow(
-                ()->new Exception("Customer not found")
-        );
-        existing.setFullName(customer.getFullName());
-        existing.setPhone(customer.getPhone());
-        existing.setEmail(customer.getEmail());
-        existing.setUpdatedAt(LocalDateTime.now());
-        return customerRepository.save(existing);
+        Customer customerToUpdate = customerRepository.findById(id).orElseThrow(
+                () -> new Exception("Customer not found"));
+        customer.setFullName(customer.getFullName());
+        customer.setEmail(customer.getEmail());
+        customer.setPhone(customer.getPhone());
+
+        return customerRepository.save(customer);
     }
 
     @Override
     public void deleteCustomer(Long id) throws Exception {
-        Customer existing = customerRepository.findById(id).orElseThrow(
-                ()->new Exception("Customer not found")
-        );
-        customerRepository.delete(existing);
+        Customer customerToUpdate = customerRepository.findById(id).orElseThrow(
+                () -> new Exception("Customer not found"));
+        customerRepository.delete(customerToUpdate);
     }
 
     @Override
     public Customer getCustomer(Long id) throws Exception {
         return customerRepository.findById(id).orElseThrow(
-                ()->new Exception("Customer not found")
-        );
+                () -> new Exception("Customer not found"));
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers() throws Exception {
         return customerRepository.findAll();
     }
 
     @Override
-    public List<Customer> searchCustomers(String keyword) {
-        return customerRepository.search(keyword);
+    public List<Customer> searchCustomers(String keyword) throws Exception {
+        return customerRepository.findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                keyword, keyword);
     }
 }

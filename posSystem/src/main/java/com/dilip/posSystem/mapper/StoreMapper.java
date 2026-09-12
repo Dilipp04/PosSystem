@@ -2,35 +2,34 @@ package com.dilip.posSystem.mapper;
 
 import com.dilip.posSystem.modal.Store;
 import com.dilip.posSystem.modal.User;
-import com.dilip.posSystem.payload.dto.StoreDto;
+import com.dilip.posSystem.payload.dto.StoreDTO;
 
 public class StoreMapper {
-
-    public static StoreDto toDTO(Store store){
-        StoreDto storeDto = new StoreDto();
-        storeDto.setId(store.getId());
-        storeDto.setBrand(store.getBrand());
-        storeDto.setDescription(store.getDescription());
-        storeDto.setAdmin(UserMapper.toDTO(store.getAdmin()));
-        storeDto.setStoreType(store.getStoreType());
-        storeDto.setContact(store.getContact());
-        storeDto.setCreatedAt(store.getCreatedAt());
-        storeDto.setUpdatedAt(store.getUpdatedAt());
-        storeDto.setStatus(store.getStatus());
-        return storeDto;
+    public static StoreDTO toDTO(Store store) {
+        StoreDTO storeDTO = new StoreDTO();
+        storeDTO.setId(store.getId());
+        storeDTO.setBrand(store.getBrand());
+        storeDTO.setDescription(store.getDescription());
+        storeDTO.setStoreAdmin(UserMapper.toDTO(store.getStoreAdmin()));
+        storeDTO.setStoreType(store.getStoreType());
+        storeDTO.setContact(store.getContact());
+        storeDTO.setCreatedAt(store.getCreatedAt());
+        storeDTO.setUpdatedAt(store.getUpdatedAt());
+        storeDTO.setStatus(store.getStatus());
+        return storeDTO;
     }
 
-    public static Store toEntity(StoreDto storeDto, User storeAdmin){
+    public static Store toEntity(StoreDTO storeDTO, User storeAdmin) {
         Store store = new Store();
-        store.setId(storeDto.getId());
-        store.setBrand(storeDto.getBrand());
-        store.setDescription(storeDto.getDescription());
-        store.setAdmin(storeAdmin);
-        store.setStoreType(storeDto.getStoreType());
-        store.setContact(storeDto.getContact());
-        store.setCreatedAt(storeDto.getCreatedAt());
-        store.setUpdatedAt(storeDto.getUpdatedAt());
-        store.setStatus(storeDto.getStatus());
+        store.setId(storeDTO.getId());
+        store.setBrand(storeDTO.getBrand());
+        store.setDescription(storeDTO.getDescription());
+        store.setStoreAdmin(storeAdmin);
+        store.setStoreType(storeDTO.getStoreType());
+        store.setContact(storeDTO.getContact());
+        // store.setCreatedAt(storeDTO.getCreatedAt());
+        // store.setUpdatedAt(storeDTO.getUpdatedAt());
+
         return store;
     }
 }

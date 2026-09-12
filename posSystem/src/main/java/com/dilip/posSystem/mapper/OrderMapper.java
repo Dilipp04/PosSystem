@@ -1,26 +1,26 @@
 package com.dilip.posSystem.mapper;
 
 import com.dilip.posSystem.modal.Order;
-import com.dilip.posSystem.payload.dto.OrderDto;
+import com.dilip.posSystem.payload.dto.OrderDTO;
 
 import java.util.stream.Collectors;
 
 public class OrderMapper {
-    public static OrderDto toDTO(Order order){
 
-        return OrderDto.builder()
+    public static OrderDTO toDTO(Order order) {
+        return OrderDTO.builder()
                 .id(order.getId())
                 .totalAmount(order.getTotalAmount())
-                .createdAt(order.getCreatedAt())
-                .storeId(order.getStore().getId())
-                .CustomerId(order.getCustomer().getId())
-                .customer(order.getCustomer())
+                .branchId(order.getBranch().getId())
                 .cashier(UserMapper.toDTO(order.getCashier()))
+                .customer(order.getCustomer())
                 .paymentType(order.getPaymentType())
-                .items(order.getItems().stream().map(
-                        OrderItemMapper::toDTO
-                ).collect(Collectors.toList()))
+                .createdAt(order.getCreatedAt())
+                .items(order.getItems().stream()
+                        .map(OrderItemMapper::toDTO)
+                        .collect(Collectors.toList()))
                 .build();
+
     }
 
 }

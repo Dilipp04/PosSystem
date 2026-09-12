@@ -1,6 +1,9 @@
 package com.dilip.posSystem.payload.dto;
 
 import com.dilip.posSystem.domain.UserRole;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,17 +11,22 @@ import java.time.LocalDateTime;
 @Data
 public class UserDto {
 
-        private Long id;
-        private String fullName;
-        private String email;
-        private String password;
-        private String phone;
-        private UserRole role;
+    private Long id;
 
-        private Long storeId;
+    private String fullName;
 
-        private LocalDateTime createdAt;
-        private LocalDateTime updatedAt;
-        private LocalDateTime lastLogin;
+    private String email;
 
+    private String phone;
+
+    private UserRole role;
+
+    private String password;
+
+    private Long branchId;
+    private Long storeId;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime lastLogin;
 }

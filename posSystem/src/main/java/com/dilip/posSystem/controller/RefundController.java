@@ -1,68 +1,71 @@
 package com.dilip.posSystem.controller;
 
-import com.dilip.posSystem.payload.dto.RefundDto;
-import com.dilip.posSystem.payload.response.ApiResponse;
+import com.dilip.posSystem.payload.dto.RefundDTO;
 import com.dilip.posSystem.service.RefundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/refunds")
 @RequiredArgsConstructor
+@RequestMapping("/api/refunds")
 public class RefundController {
 
     private final RefundService refundService;
 
     @PostMapping
-    public ResponseEntity<RefundDto> createRefund(@RequestBody RefundDto refundDto) throws Exception {
-        RefundDto createdRefund = refundService.createRefund(refundDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdRefund);
+    public ResponseEntity<RefundDTO> createRefund(@RequestBody RefundDTO refundDTO) throws Exception {
+        RefundDTO refund = refundService.createRefund(refundDTO);
+        return ResponseEntity.ok(refund);
     }
 
     @GetMapping
-    public ResponseEntity<List<RefundDto>> getAllRefunds() {
-        return ResponseEntity.ok(refundService.getAllRefunds());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RefundDto> getRefundById(@PathVariable Long id) throws Exception {
-        return ResponseEntity.ok(refundService.getRefundById(id));
+    public ResponseEntity<List<RefundDTO>> getAllRefund() throws Exception {
+        List<RefundDTO> refund = refundService.getAllRefunds();
+        return ResponseEntity.ok(refund);
     }
 
     @GetMapping("/cashier/{cashierId}")
-    public ResponseEntity<List<RefundDto>> getRefundByCashier(@PathVariable Long cashierId) {
-        return ResponseEntity.ok(refundService.getRefundByCashier(cashierId));
+    public ResponseEntity<List<RefundDTO>> getRefundByCashier(
+            @PathVariable Long cashierId) throws Exception {
+        List<RefundDTO> refund = refundService.getRefundByCashier(cashierId);
+        return ResponseEntity.ok(refund);
+    }
+
+    @GetMapping("/branch/{branchId}")
+    public ResponseEntity<List<RefundDTO>> getRefundByBranch(
+            @PathVariable Long branchId) throws Exception {
+        List<RefundDTO> refund = refundService.getRefundByBranch(branchId);
+        return ResponseEntity.ok(refund);
+    }
+
+    @GetMapping("/shift/{shiftId}")
+    public ResponseEntity<List<RefundDTO>> getRefundByShift(
+            @PathVariable Long shiftId) throws Exception {
+        List<RefundDTO> refund = refundService.getRefundByShiftReport(shiftId);
+        return ResponseEntity.ok(refund);
     }
 
     @GetMapping("/cashier/{cashierId}/range")
-    public ResponseEntity<List<RefundDto>> getRefundByCashierAndDateRange(
+    public ResponseEntity<List<RefundDTO>> getRefundByCashierAndDateRange(
             @PathVariable Long cashierId,
-            @RequestParam  LocalDateTime from,
-            @RequestParam  LocalDateTime to) {
-        return ResponseEntity.ok(refundService.getRefundByCashierAndDateRange(cashierId, from, to));
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) throws Exception {
+        List<RefundDTO> refund = refundService.getRefundByCashierAndDateRange(
+                cashierId, startDate, endDate);
+        return ResponseEntity.ok(refund);
     }
 
-    @GetMapping("/shift/{shiftReportId}")
-    public ResponseEntity<List<RefundDto>> getRefundByShiftReport(@PathVariable Long shiftReportId) {
-        return ResponseEntity.ok(refundService.getRefundByShiftReport(shiftReportId));
-    }
-
-    @GetMapping("/store/{storeId}")
-    public ResponseEntity<List<RefundDto>> getRefundByStore(@PathVariable Long storeId) {
-        return ResponseEntity.ok(refundService.getRefundByStoreId(storeId));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteRefund(@PathVariable Long id) throws Exception {
-        refundService.deleteRefund(id);
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setMessage("Refund is deleted Successfully");
-        return ResponseEntity.ok(apiResponse);
+    @GetMapping("/{id}")
+    public ResponseEntity<RefundDTO> getRefundById(
+            @PathVariable Long id) throws Exception {
+        RefundDTO refund = refundService.getRefundById(id);
+        return ResponseEntity.ok(refund);
     }
 }

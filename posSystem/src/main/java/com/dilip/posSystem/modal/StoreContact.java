@@ -13,12 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreContact {
-    private  String address;
+    private String address;
     private String phone;
 
-    @Email(message = "Invalid Email Format")
+    @Email(message = "invalid email format")
     private String email;
-
-
 }
-

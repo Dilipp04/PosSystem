@@ -1,16 +1,20 @@
 package com.dilip.posSystem.service;
 
-import com.dilip.posSystem.payload.dto.InventoryDto;
+import com.dilip.posSystem.payload.dto.InventoryDTO;
 
 import java.util.List;
 
 public interface InventoryService {
 
-    InventoryDto createInventory(InventoryDto inventoryDto) throws Exception;
-    InventoryDto updateInventory(Long id,InventoryDto inventoryDto) throws Exception;
-    void deleteInventory(Long id) throws Exception;
-    InventoryDto getInventoryById(Long id) throws Exception;
-    InventoryDto getInventoryByProductIdAndStoreId(Long productId,Long storeId);
-    List<InventoryDto> getInventoryByStoreId(Long StoreId);
+    InventoryDTO createInventory(InventoryDTO inventoryDTO) throws Exception;
 
+    InventoryDTO updateInventory(Long id, InventoryDTO inventoryDTO) throws Exception;
+
+    void deleteInventory(Long id) throws Exception;
+
+    InventoryDTO getInventoryById(Long id) throws Exception;
+
+    InventoryDTO getInventoryByProductIdAndBranchId(Long productId, Long branchId);
+
+    List<InventoryDTO> getAllInventoryByBranchId(Long branchId);
 }

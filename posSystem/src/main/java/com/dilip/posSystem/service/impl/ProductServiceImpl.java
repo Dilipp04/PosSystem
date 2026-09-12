@@ -5,7 +5,7 @@ import com.dilip.posSystem.modal.Category;
 import com.dilip.posSystem.modal.Product;
 import com.dilip.posSystem.modal.Store;
 import com.dilip.posSystem.modal.User;
-import com.dilip.posSystem.payload.dto.ProductDto;
+import com.dilip.posSystem.payload.dto.ProductDTO;
 import com.dilip.posSystem.repository.CategoryRepository;
 import com.dilip.posSystem.repository.ProductRepository;
 import com.dilip.posSystem.repository.StoreRepository;
@@ -21,77 +21,72 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+        private final ProductRepository productRepository;
+        private final StoreRepository storeRepository;
+        private final CategoryRepository categoryRepository;
 
-    private final ProductRepository productRepository;
-    private final StoreRepository storeRepository;
-    private final CategoryRepository categoryRepository;
+        @Override
+        public ProductDTO createProduct(ProductDTO productDTO, User user) throws Exception {
+                Store store = storeRepository.findById(
+                                productDTO.getStoreId()).orElseThrow(
+                                                () -> new Exception("Store not found"));
 
-    @Override
-    public ProductDto createProduct(ProductDto productDto, User user) throws Exception {
-        Store store = storeRepository.findById(
-                productDto.getStoreId()
-        ).orElseThrow(
-                ()-> new Exception("Store Not found")
-        );
-        Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
-                ()->new Exception("Category not found")
-        );
-        Product product = ProductMapper.toEntity(productDto,store,category);
-        Product savedProduct = productRepository.save(product);
-        return ProductMapper.toDTO( savedProduct);
-    }
+                Category category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(
+                                () -> new Exception("Category not found"));
 
-    @Override
-    public ProductDto updateProduct(Long id, ProductDto productDto, User user) throws Exception {
-        Product product = productRepository.findById(id).orElseThrow(
-                ()-> new Exception("Product not found")
-        );
-        product.setName(productDto.getName());
-        product.setDescription(productDto.getDescription());
-        product.setSku(productDto.getSku());
-        product.setImage(productDto.getImage());
-        product.setMrp(productDto.getMrp());
-        product.setSellingPrice(productDto.getSellingPrice());
-        product.setBrand(productDto.getBrand());
-        product.setUpdatedAt(LocalDateTime.now());
-        if(productDto.getCategoryId()!=null) {
-            Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(
-                    () -> new Exception("Category Not found")
-            );
-
-            product.setCategory(category);
+                Product product = ProductMapper.toEntity(productDTO, store, category);
+                Product savedProduct = productRepository.save(product);
+                return ProductMapper.toDTO(savedProduct);
         }
 
-        return ProductMapper.toDTO( productRepository.save(product));
-    }
+        @Override
+        public ProductDTO updateProduct(Long id, ProductDTO productDTO, User user) throws Exception {
+                Product product = productRepository.findById(id).orElseThrow(
+                                () -> new Exception("product not found"));
 
-    @Override
-    public void deleteProduct(Long id, User user) throws Exception {
-        Product product = productRepository.findById(id).orElseThrow(
-                ()-> new Exception("Product not found")
-        );
-       productRepository.delete(product);
-    }
+                product.setName(productDTO.getName());
+                product.setDescription(productDTO.getDescription());
+                product.setSku(productDTO.getSku());
+                product.setImage(productDTO.getImage());
+                product.setMrp(productDTO.getMrp());
+                product.setSellingPrice(productDTO.getSellingPrice());
+                product.setBrand(productDTO.getBrand());
+                product.setUpdatedAt(LocalDateTime.now());
 
-    @Override
-    public ProductDto getProduct(Long id, User user) throws Exception {
-        Product product = productRepository.findById(id).orElseThrow(
-                ()-> new Exception("Product not found")
-        );
-        return ProductMapper.toDTO(product);
-    }
+                if (productDTO.getCategoryId() != null) {
+                        Category category = categoryRepository.findById(productDTO.getCategoryId()).orElseThrow(
+                                        () -> new Exception("category not found"));
+                        product.setCategory(category);
 
-    @Override
-    public List<ProductDto> getProductsByStoreId(Long storeId) {
-        List<Product> products =  productRepository.findByStoreId(storeId);
-        return products.stream().map(ProductMapper::toDTO).collect(Collectors.toList());
-    }
+                }
 
-    @Override
-    public List<ProductDto> searchByKeyword(Long storeId, String keyword) {
+                Product savedProduct = productRepository.save(product);
+                return ProductMapper.toDTO(savedProduct);
+        }
 
-        List<Product> products =  productRepository.searchByKeyword(storeId,keyword);
-        return products.stream().map(ProductMapper::toDTO).collect(Collectors.toList());
+        @Override
+        public void deleteProduct(Long id, User user) throws Exception {
 
-    }
+                Product product = productRepository.findById(id).orElseThrow(
+                                () -> new Exception("product not found"));
+
+                productRepository.delete(product);
+
+        }
+
+        @Override
+        public List<ProductDTO> getProductsByStoreId(Long storeId) {
+                List<Product> products = productRepository.findByStoreId(storeId);
+                return products.stream()
+                                .map(ProductMapper::toDTO)
+                                .collect(Collectors.toList());
+        }
+
+        @Override
+        public List<ProductDTO> searchByKeyword(Long storeId, String keyword) {
+                List<Product> products = productRepository.searchByKeyword(storeId, keyword);
+                return products.stream()
+                                .map(ProductMapper::toDTO)
+                                .collect(Collectors.toList());
+        }
 }
